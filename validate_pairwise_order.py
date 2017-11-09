@@ -1,6 +1,11 @@
 #This code is for validation of pair-wise distance oedering within the class
 import numpy
 import random
+import pickle
+
+#Python function to measure pair-wise squared error distances between 2 rows of a matrix
+def squared_error_matrix_rows (matrix,row1,row2):
+	return(numpy.sum(numpy.abs(matrix[row1,:]-matrix[row2,:])))
 
 classes=['paisley','plain','floral','vertical','horizontal','diagonal','spotted','gingham'];
 label_dict=dict(zip(classes,range(len(classes))));
@@ -18,12 +23,12 @@ for k in sorted(label_dict.values()):
 
 	indices = [index for index in range(len(y)) if y.item(index) == k];
 	
-	f1=open("pairwise_dist_sorted_orig_dim_%s.dat" % label_dict_reverse[k],"w");
-	f2=open("pairwise_dist_sorted_PCA256_%s.dat" % label_dict_reverse[k],"w");
-	f3=open("pairwise_dist_sorted_PCA512_%s.dat" % label_dict_reverse[k],"w");
-	f4=open("pairwise_dist_sorted_PCA1024_%s.dat" % label_dict_reverse[k],"w");
-	f5=open("pairwise_dist_sorted_PCA2048_%s.dat" % label_dict_reverse[k],"w");
-	f6=open("pairwise_dist_sorted_PCA4096_%s.dat" % label_dict_reverse[k],"w");
+	f1=open("pairwise_dist_sorted_orig_dim_%s.dat" % label_dict_reverse[k],"wb");
+	f2=open("pairwise_dist_sorted_PCA256_%s.dat" % label_dict_reverse[k],"wb");
+	f3=open("pairwise_dist_sorted_PCA512_%s.dat" % label_dict_reverse[k],"wb");
+	f4=open("pairwise_dist_sorted_PCA1024_%s.dat" % label_dict_reverse[k],"wb");
+	f5=open("pairwise_dist_sorted_PCA2048_%s.dat" % label_dict_reverse[k],"wb");
+	f6=open("pairwise_dist_sorted_PCA4096_%s.dat" % label_dict_reverse[k],"wb");
 	
 	count=0;
 	pair=[];
@@ -65,13 +70,13 @@ for k in sorted(label_dict.values()):
 	dist_PCA2048_tuple.sort(key=lambda x: x[1], reverse=True);
 	dist_PCA4096_tuple.sort(key=lambda x: x[1], reverse=True);
 	
-	for i in range(0,count):
-		f1.write("%s %f\n" %(dist_orig_tuple[i][0],dist_orig_tuple[i][1]));
-		f2.write("%s %f\n" %(dist_PCA256_tuple[i][0],dist_PCA256_tuple[i][1]));
-		f3.write("%s %f\n" %(dist_PCA512_tuple[i][0],dist_PCA512_tuple[i][1]));
-		f4.write("%s %f\n" %(dist_PCA1024_tuple[i][0],dist_PCA1024_tuple[i][1]));
-		f5.write("%s %f\n" %(dist_PCA2048_tuple[i][0],dist_PCA2048_tuple[i][1]));
-		f6.write("%s %f\n" %(dist_PCA4096_tuple[i][0],dist_PCA4096_tuple[i][1]));
+	
+	pickle.dump(dist_orig_tuple,f1);
+	pickle.dump(dist_PCA256_tuple,f2);
+	pickle.dump(dist_PCA512_tuple,f3);
+	pickle.dump(dist_PCA1024_tuple,f4);
+	pickle.dump(dist_PCA2048_tuple,f5);
+	pickle.dump(dist_PCA4096_tuple,f6);
 	
 	f1.close();
 	f2.close();
@@ -85,6 +90,3 @@ for k in sorted(label_dict.values()):
 
 
 
-#Python function to measure pair-wise squared error distances between 2 rows of a matrix
-def squared_error_matrix_rows (matrix,row1,row2):
-	return(numpy.sum(numpy.abs(matrix[row1,:]-matrix[row2,:])))
