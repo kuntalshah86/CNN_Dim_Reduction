@@ -23,7 +23,7 @@ for k in [0,5,6]:
 	cum_rank_diff_PCA2048=0;
 	cum_rank_diff_PCA4096=0;
 		
-	for i in range(0,max(len(D_orig),n)):
+	for i in range(0,min(len(D_orig),n)):
 		index_orig=i;
 		index_PCA256= [index for index in range(len(D_orig)) if D_PCA256[index][0][0] == D_orig[i][0][0] and D_PCA256[index][0][1] == D_orig[i][0][1]][0];
 		index_PCA512= [index for index in range(len(D_orig)) if D_PCA512[index][0][0] == D_orig[i][0][0] and D_PCA512[index][0][1] == D_orig[i][0][1]][0];
@@ -37,11 +37,11 @@ for k in [0,5,6]:
 		cum_rank_diff_PCA2048=cum_rank_diff_PCA2048+abs(index_PCA2048-index_orig);
 		cum_rank_diff_PCA4096=cum_rank_diff_PCA4096+abs(index_PCA4096-index_orig);
 		
-	avg_rank_change_PCA256=cum_rank_diff_PCA256/max(len(D_orig),n);
-	avg_rank_change_PCA512=cum_rank_diff_PCA512/max(len(D_orig),n);
-	avg_rank_change_PCA1024=cum_rank_diff_PCA1024/max(len(D_orig),n);
-	avg_rank_change_PCA2048=cum_rank_diff_PCA2048/max(len(D_orig),n);
-	avg_rank_change_PCA4096=cum_rank_diff_PCA4096/max(len(D_orig),n);
+	avg_rank_change_PCA256=cum_rank_diff_PCA256/min(len(D_orig),n);
+	avg_rank_change_PCA512=cum_rank_diff_PCA512/min(len(D_orig),n);
+	avg_rank_change_PCA1024=cum_rank_diff_PCA1024/min(len(D_orig),n);
+	avg_rank_change_PCA2048=cum_rank_diff_PCA2048/min(len(D_orig),n);
+	avg_rank_change_PCA4096=cum_rank_diff_PCA4096/min(len(D_orig),n);
 	
 	print ("%s %f %f %f %f %f" %(label_dict_reverse,avg_rank_change_PCA256,avg_rank_change_PCA512,avg_rank_change_PCA1024,avg_rank_change_PCA2048,avg_rank_change_PCA4096));
 	
