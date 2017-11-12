@@ -1,15 +1,15 @@
+#This is general code, modify as per need
 import numpy
 
 classes=['paisley','plain','floral','vertical','horizontal','diagonal','spotted','gingham'];
 label_dict=dict(zip(classes,range(len(classes))));
 label_dict_reverse=dict(zip(range(len(classes)),classes));
 
-#Top n pairs with least distance to check
+#Top n pairs with least distance to check within a class
 n=100;
-avg_rank_change_mat=numpy.zeros((1,6));
 
-#for k in [0,3,5,6,7]:
-for k in [0,5,6]:
+
+for k in sorted(label_dict.values()):
 	D_orig=numpy.load("pairwise_dist_sorted_orig_dim_%s.dat" % label_dict_reverse[k]);
 	D_PCA256=numpy.load("pairwise_dist_sorted_PCA256_%s.dat" % label_dict_reverse[k]);
 	D_PCA512=numpy.load("pairwise_dist_sorted_PCA512_%s.dat" % label_dict_reverse[k]);
@@ -43,7 +43,7 @@ for k in [0,5,6]:
 	avg_rank_change_PCA2048=cum_rank_diff_PCA2048/min(len(D_orig),n);
 	avg_rank_change_PCA4096=cum_rank_diff_PCA4096/min(len(D_orig),n);
 	
-	print ("%s %f %f %f %f %f" %(label_dict_reverse,avg_rank_change_PCA256,avg_rank_change_PCA512,avg_rank_change_PCA1024,avg_rank_change_PCA2048,avg_rank_change_PCA4096));
+	print ("%s %f %f %f %f %f" %(label_dict_reverse[k],avg_rank_change_PCA256,avg_rank_change_PCA512,avg_rank_change_PCA1024,avg_rank_change_PCA2048,avg_rank_change_PCA4096));
 	
 	
 	
